@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Mati Fight — Full Version</title>
+<style>
+body{background:#020814;font-family:Arial;color:white;margin:0;padding:0;text-align:center;}
+#loginBox,#gameBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+#loginBox{background:rgba(0,0,0,0.8);padding:25px;border-radius:12px;}
+input{padding:8px;margin-top:10px;border-radius:6px;border:none;width:200px;}
+button{margin-top:10px;padding:8px 15px;border-radius:6px;border:none;background:#ff4500;color:white;cursor:pointer;}
+#arena{position:relative;width:960px;height:600px;margin:auto;border:3px solid white;overflow:hidden;background:linear-gradient(180deg,#123 0%,#012 100%);}
+#mati{position:absolute;width:120px;top:50%;left:50%;transform:translate(-50%, -50%);}
+.atak{position:absolute;pointer-events:none;width:100px;}
+#hp{font-size:22px;margin:10px;}
+@keyframes fly-star {
+  0% {transform:translate(0,0) scale(0); opacity:1;}
+  50% {transform:translate(0,-30px) scale(1); opacity:1;}
+  100% {transform:translate(0,-50px) scale(0); opacity:0;}
+}
+.action-star{position:absolute;width:20px;pointer-events:none;animation:fly-star 0.8s ease-out forwards;}
+</style>
+</head>
+<body>
+
+<!-- LOGOWANIE -->
+<div id="loginBox">
+  <h2>Wpisz hasło aby wejść</h2>
+  <input type="password" id="pw" placeholder="Hasło"><br>
+  <button onclick="checkPassword()">Wejdź</button>
+  <p id="loginMsg"></p>
+</div>
+
+<!-- GRA -->
+<div id="gameBox" style="display:none">
+  <h1>🔥 MATI FIGHT 🔥</h1>
+  <div id="hp">❤️ HP: <span id="hpVal"></span></div>
+  <div id="arena">
+    <img id="mati" src="img/mati_serduszka.png">
+  </div>
+  <div style="margin-top:10px;">
+    <button onclick="atak('laser')">🔫 Laser</button>
+    <button onclick="atak('knife')">🔪 Nóż</button>
+    <button onclick="atak('fire')">🔥 Ogień</button>
+    <button onclick="atak('thunder')">⚡ Piorun</button>
+    <button onclick="atak('water')">💦 Woda</button>
+    <button onclick="atak('banana')">🍌 Banan</button>
+    <button onclick="atak('tornado')">🌀 Tornado</button>
+    <button onclick="atak('bomb')">💣 Mega Boom</button>
+  </div>
+  <button id="respawnBtn" onclick="respawnMati()" style="display:none; margin-top:10px; background:#00c853;">♻️ Odzdechnij Matiego</button>
+</div>
+
+<script>
+// =======================
+// POPRAWNE ZAKODOWANIE HASŁA
+// =======================
+const key = 42; 
+const encodedPass = [71,75,94,67,73,93,79,70,27,24,25]; // "maticwel123" XOR 42
+function decodePassword(arr){ return String.fromCharCode(...arr.map(c=>c^key)); }
+const PASSWORD = decodePassword(encodedPass);
+
+// LOGOWANIE
+function checkPassword(){
+  const pw = document.getElementById("pw").value;
+  if(pw === PASSWORD){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("gameBox").style.display="block";
+    initGame();
+  } else {
+    document.getElementById("loginMsg").textContent="❌ Złe hasło!";
+  }
+}
+
+// =======================
+// GAME
+// =======================
+let hp = localStorage.getItem("matiHP") ? Number(localStorage.getItem("matiHP")) : 100;
+let arena, mati, hpEl;
+
+function initGame(){
+  arena = document.getElementById("arena");
+  mati = document.getElementById("mati");
+  hpEl = document.getElementById("hpVal");
+  updateHP();
+}
+
+// AKTUALIZACJA HP
+function updateHP(){
+  hp = Math.max(0,hp);
+  hpEl.textContent = hp;
+  localStorage.setItem("matiHP", hp);
+
+  if(hp <= 0){
+    mati.src = "img/mati_dead.png";
+    alert("MATI ZDECHŁ 💀");
+    document.getElementById("respawnBtn").style.display = "inline-block";
+  }
+}
+
+// ODRODZENIE MATI
+function respawnMati(){
+  hp = 100;
+  updateHP();
+  mati.src = "img/mati_serduszka.png";
+  document.getElementById("respawnBtn").style.display = "none";
+  showStars(arena.clientWidth/2, arena.clientHeight/2, 10); // gwiazdki w centrum areny
+}
+
+// POKAZYWANIE GWIAZDEK
+function showStars(x, y, count=5){
+  for(let i=0;i<count;i++){
+    const star = document.createElement("img");
+    star.src = "img/gwiazda.png"; // własny obrazek gwiazdki
+    star.className = "action-star";
+    star.style.left = (x + Math.random()*40 - 20) + "px";
+    star.style.top = (y + Math.random()*40 - 20) + "px";
+    arena.appendChild(star);
+    star.addEventListener("animationend", ()=> star.remove());
+  }
+}
+
+// ATAKI
+function atak(type){
+  const img = document.createElement("img");
+  img.className = "atak";
+  const attackImages = {
+    laser:"img/laser.png",
+    knife:"img/noz.png",
+    fire:"img/ogien.png",
+    thunder:"img/thunder.png",
+    water:"img/water.png",
+    banana:"img/banana.png",
+    tornado:"img/tornado.png",
+    bomb:"img/bomb.png"
+  };
+  img.src = attackImages[type];
+  arena.appendChild(img);
+  img.style.left = "0px";
+  img.style.top = (Math.random()*400) + "px";
+
+  let x=0;
+  const timer = setInterval(()=>{
+    x += 12;
+    img.style.left = x+"px";
+
+    // kolizja z Mati
+    const matiPos = mati.getBoundingClientRect();
+    const atkPos = img.getBoundingClientRect();
+    const arenaRect = arena.getBoundingClientRect();
+    if(atkPos.right >= matiPos.left && atkPos.left <= matiPos.right &&
+       atkPos.bottom >= matiPos.top && atkPos.top <= matiPos.bottom){
+      arena.removeChild(img);
+      clearInterval(timer);
+      const dmg = {laser:1, knife:2, fire:5, thunder:4, water:5, banana:5, tornado:25, bomb:25}[type];
+      hp -= dmg;
+      updateHP();
+      const centerX = atkPos.left - arenaRect.left + atkPos.width/2;
+      const centerY = atkPos.top - arenaRect.top + atkPos.height/2;
+      showStars(centerX, centerY, 5);
+    }
+
+    if(x > 960){
+      if(arena.contains(img)) arena.removeChild(img);
+      clearInterval(timer);
+    }
+  },30);
+}
+</script>
+
+</body>
+</html>
