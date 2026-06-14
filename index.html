@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🔥 BOSS FIGHT MAX 🔥</title>
+
+<link rel="icon" href="img/frajer.png">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- TŁO -->
+<div id="stars"></div>
+<div id="particles"></div>
+
+<!-- LOGIN -->
+
+<div id="loginScreen">
+
+    <div class="login-card">
+
+        <h1 class="logo">
+            🔥 BOSS FIGHT MAX 🔥
+        </h1>
+
+        <p class="subtitle">
+            Wprowadź hasło
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Hasło..."
+        >
+
+        <button id="loginBtn">
+            WEJDŹ
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+</div>
+
+<!-- MENU -->
+
+<div id="menuScreen" class="hidden">
+
+    <div class="menu-card">
+
+        <h1>
+            ⚔️ MENU GŁÓWNE
+        </h1>
+
+        <button id="startGameBtn">
+            ▶ START
+        </button>
+
+        <button id="shopBtn">
+            🛒 SKLEP
+        </button>
+
+        <button id="achievementsBtn">
+            🏆 OSIĄGNIĘCIA
+        </button>
+
+        <button id="statsBtn">
+            📈 STATYSTYKI
+        </button>
+
+    </div>
+
+</div>
+
+<!-- GRA -->
+
+<div id="gameScreen" class="hidden">
+
+    <header>
+
+        <div class="top-left">
+
+            <div>
+                💰 Monety:
+                <span id="coins">
+                    0
+                </span>
+            </div>
+
+            <div>
+                ⭐ Poziom:
+                <span id="level">
+                    1
+                </span>
+            </div>
+
+            <div>
+                XP:
+                <span id="xp">
+                    0
+                </span>
+            </div>
+
+        </div>
+
+        <div class="top-right">
+
+            <button id="saveBtn">
+                💾 Zapisz
+            </button>
+
+            <button id="fullscreenBtn">
+                🖥 Fullscreen
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- HP Bossa -->
+
+    <section id="bossSection">
+
+        <h2 id="bossName">
+            👹 MATI BOSS
+        </h2>
+
+        <div id="bossHpContainer">
+
+            <div id="bossHpBar"></div>
+
+        </div>
+
+        <div id="bossHpText">
+            1000 / 1000
+        </div>
+
+    </section>
+
+    <!-- ARENA -->
+
+    <div id="arena">
+
+        <img
+            id="boss"
+            src="img/mati_serduszka.png"
+            alt="boss"
+        >
+
+        <div id="effectsLayer"></div>
+
+        <div id="damageLayer"></div>
+
+        <div id="projectileLayer"></div>
+
+        <div id="enemyProjectileLayer"></div>
+
+    </div>
+
+    <!-- BRONIE -->
+
+    <section id="weaponPanel">
+
+        <button class="weapon" data-weapon="laser">
+            🔫 Laser
+        </button>
+
+        <button class="weapon" data-weapon="knife">
+            🔪 Nóż
+        </button>
+
+        <button class="weapon" data-weapon="fire">
+            🔥 Ogień
+        </button>
+
+        <button class="weapon" data-weapon="thunder">
+            ⚡ Piorun
+        </button>
+
+        <button class="weapon" data-weapon="water">
+            💦 Woda
+        </button>
+
+        <button class="weapon" data-weapon="banana">
+            🍌 Banan
+        </button>
+
+        <button class="weapon" data-weapon="tornado">
+            🌀 Tornado
+        </button>
+
+        <button class="weapon" data-weapon="bomb">
+            💣 Mega Boom
+        </button>
+
+        <button class="weapon" data-weapon="rocket">
+            🚀 Rakieta
+        </button>
+
+        <button class="weapon" data-weapon="meteor">
+            ☄️ Meteor
+        </button>
+
+        <button class="weapon" data-weapon="ice">
+            ❄️ Lód
+        </button>
+
+        <button class="weapon" data-weapon="shark">
+            🦈 Rekin
+        </button>
+
+        <button class="weapon" data-weapon="nuke">
+            ☢️ Nuke
+        </button>
+
+        <button class="weapon" data-weapon="orbital">
+            🛰 Orbital Strike
+        </button>
+
+        <button class="weapon" data-weapon="blackhole">
+            🕳 Czarna Dziura
+        </button>
+
+    </section>
+
+    <!-- COMBO -->
+
+    <section id="comboSection">
+
+        <div id="comboText">
+
+            COMBO x1
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- SKLEP -->
+
+<div id="shopScreen" class="hidden">
+
+    <div class="shop-card">
+
+        <h1>
+            🛒 SKLEP
+        </h1>
+
+        <div class="shop-grid">
+
+            <div class="shop-item">
+
+                <h3>
+                    +10 DMG
+                </h3>
+
+                <p>
+                    Koszt: 50
+                </p>
+
+                <button
+                    class="buy"
+                    data-item="dmg1"
+                >
+                    Kup
+                </button>
+
+            </div>
+
+            <div class="shop-item">
+
+                <h3>
+                    +25 DMG
+                </h3>
+
+                <p>
+                    Koszt: 150
+                </p>
+
+                <button
+                    class="buy"
+                    data-item="dmg2"
+                >
+                    Kup
+                </button>
+
+            </div>
+
+            <div class="shop-item">
+
+                <h3>
+                    Crit Chance
+                </h3>
+
+                <p>
+                    Koszt: 250
+                </p>
+
+                <button
+                    class="buy"
+                    data-item="crit"
+                >
+                    Kup
+                </button>
+
+            </div>
+
+            <div class="shop-item">
+
+                <h3>
+                    Auto Fire
+                </h3>
+
+                <p>
+                    Koszt: 500
+                </p>
+
+                <button
+                    class="buy"
+                    data-item="autofire"
+                >
+                    Kup
+                </button>
+
+            </div>
+
+            <div class="shop-item">
+
+                <h3>
+                    Mega Nuke
+                </h3>
+
+                <p>
+                    Koszt: 1000
+                </p>
+
+                <button
+                    class="buy"
+                    data-item="nuke"
+                >
+                    Kup
+                </button>
+
+            </div>
+
+        </div>
+
+        <button id="backFromShop">
+            ← Powrót
+        </button>
+
+    </div>
+
+</div>
+
+<!-- OSIĄGNIĘCIA -->
+
+<div id="achievementScreen" class="hidden">
+
+    <div class="achievement-card">
+
+        <h1>
+            🏆 Osiągnięcia
+        </h1>
+
+        <div id="achievementList">
+
+        </div>
+
+        <button id="backAchievements">
+
+            ← Powrót
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- STATYSTYKI -->
+
+<div id="statsScreen" class="hidden">
+
+    <div class="stats-card">
+
+        <h1>
+            📈 Statystyki
+        </h1>
+
+        <div id="statsContent">
+
+            <p>
+                Trafienia:
+                <span id="statHits">0</span>
+            </p>
+
+            <p>
+                Zabici bossowie:
+                <span id="statKills">0</span>
+            </p>
+
+            <p>
+                Krytyki:
+                <span id="statCrits">0</span>
+            </p>
+
+            <p>
+                Zdobyte XP:
+                <span id="statXp">0</span>
+            </p>
+
+        </div>
+
+        <button id="backStats">
+            ← Powrót
+        </button>
+
+    </div>
+
+</div>
+
+<!-- EKRAN WYGRANEJ -->
+
+<div id="victoryScreen" class="hidden">
+
+    <div class="victory-card">
+
+        <h1>
+            👑 BOSS POKONANY
+        </h1>
+
+        <h2>
+            +500 MONET
+        </h2>
+
+        <button id="nextBossBtn">
+            ⚔️ Następny Boss
+        </button>
+
+    </div>
+
+</div>
+
+<!-- POWIADOMIENIA -->
+
+<div id="notificationContainer"></div>
+
+<!-- AUDIO -->
+
+<audio
+id="hitSound"
+src="audio/hit.mp3">
+</audio>
+
+<audio
+id="criticalSound"
+src="audio/critical.mp3">
+</audio>
+
+<audio
+id="deathSound"
+src="audio/death.mp3">
+</audio>
+
+<audio
+id="levelupSound"
+src="audio/levelup.mp3">
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
