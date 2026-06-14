@@ -8,7 +8,7 @@
 body{
     background:#050816;
     color:white;
-    overflow:hidden;
+    overflow-y:auto;
 }
 
 /* =========================
@@ -236,7 +236,8 @@ header{
 ========================= */
 
 #arena{
-    width:1200px;
+    width:95%;
+    max-width:1200px;
     height:620px;
     margin:20px auto;
     position:relative;
