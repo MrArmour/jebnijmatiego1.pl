@@ -43,7 +43,7 @@ const xpEl = document.getElementById("xp");
 document.getElementById("loginBtn").onclick = () => {
     const pass = document.getElementById("passwordInput").value;
 
-    if(pass === "boss123"){
+    if(pass === "matigigacweluch123"){
         loginScreen.classList.add("hidden");
         menuScreen.classList.remove("hidden");
     } else {
